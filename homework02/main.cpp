@@ -42,11 +42,14 @@ enum SortKind{
 
 
 typedef struct{
-    // 请补全结构定义
+    QStringList stud;  //
 } studData;
 
 QDebug operator<< (QDebug d, const studData &data) {
-    // 请补全运算符重载函数，使其可以直接输出studData结构
+     for(int i=0;i<data.stud.size();i++)
+     {
+             d.noquote().nospace()<<QString(data.stud.at(i))<<" ";
+         }
     return d;
 }
 
@@ -64,11 +67,39 @@ bool myCmp::operator()(const studData &d1, const studData &d2)
     bool result = false;
     quint32 sortedColumn = 0x00000001<<currentColumn;
     switch (sortedColumn) {
-    case SK::col01:
-    // ...
-    // 请补全运算符重载函数
-    // ...
-    //
+           case SK::col01:result=d1.stud.at(1)>d2.stud.at(1);    break;
+           case SK::col02:result=d1.stud.at(2)>d2.stud.at(2);    break;
+           case SK::col03:result=d1.stud.at(3)>d2.stud.at(3);    break;
+           case SK::col04:result=d1.stud.at(4)>d2.stud.at(4);    break;
+           case SK::col05:result=d1.stud.at(5)>d2.stud.at(5);    break;
+           case SK::col06:result=d1.stud.at(6)>d2.stud.at(6);    break;
+           case SK::col07:result=d1.stud.at(7)>d2.stud.at(7);    break;
+           case SK::col08:result=d1.stud.at(8)>d2.stud.at(8);    break;
+           case SK::col09:result=d1.stud.at(9)>d2.stud.at(9);    break;
+           case SK::col10:result=d1.stud.at(10)>d2.stud.at(10);  break;
+           case SK::col11:result=d1.stud.at(11)>d2.stud.at(11);  break;
+           case SK::col12:result=d1.stud.at(12)>d2.stud.at(12);  break;
+           case SK::col13:result=d1.stud.at(13)>d2.stud.at(13);  break;
+           case SK::col14:result=d1.stud.at(14)>d2.stud.at(14);  break;
+           case SK::col15:result=d1.stud.at(15)>d2.stud.at(15);  break;
+           case SK::col16:result=d1.stud.at(16)>d2.stud.at(16);  break;
+           case SK::col17:result=d1.stud.at(17)>d2.stud.at(17);  break;
+           case SK::col18:result=d1.stud.at(18)>d2.stud.at(18);  break;
+           case SK::col19:result=d1.stud.at(19)>d2.stud.at(19);  break;
+           case SK::col20:result=d1.stud.at(20)>d2.stud.at(20);  break;
+           case SK::col21:result=d1.stud.at(21)>d2.stud.at(21);  break;
+           case SK::col22:result=d1.stud.at(22)>d2.stud.at(22);  break;
+           case SK::col23:result=d1.stud.at(23)>d2.stud.at(23);  break;
+           case SK::col24:result=d1.stud.at(24)>d2.stud.at(24);  break;
+           case SK::col25:result=d1.stud.at(25)>d2.stud.at(25);  break;
+           case SK::col26:result=d1.stud.at(26)>d2.stud.at(26);  break;
+           case SK::col27:result=d1.stud.at(27)>d2.stud.at(27);  break;
+           case SK::col28:result=d1.stud.at(28)>d2.stud.at(28);  break;
+           case SK::col29:result=d1.stud.at(29)>d2.stud.at(29);  break;
+           case SK::col30:result=d1.stud.at(30)>d2.stud.at(30);  break;
+           case SK::col31:result=d1.stud.at(31)>d2.stud.at(31);  break;
+           case SK::col32:result=d1.stud.at(32)>d2.stud.at(32);  break;
+           default:;break;
     }
     return result;
 
@@ -79,17 +110,22 @@ class ScoreSorter
 {
 public:
     ScoreSorter(QString dataFile);
-    // ...
-    // 请补全该类，使其实现上述要求
-    // ...
+    void readFile();
+        void doSort();
+    private:
+        QString tempFile;
+        QList<studData> data;
+        studData list;
+        void out_file(quint8 lie);
 }
 
-// 请补全
-ScoreSorter::ScoreSorter(QString dataFile){
+ScoreSorter::ScoreSorter(QString dataFile)
+{
+         this->tempFile=dataFile;
 }
 
 
-void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void ScoreSorter::readFile()
 {
     // 自定义qDebug
 }
