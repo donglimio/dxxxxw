@@ -127,6 +127,7 @@ ScoreSorter::ScoreSorter(QString dataFile)
 
 void ScoreSorter::readFile()
 {
+    //打开文件
     QFile file(this->datafile);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -134,11 +135,10 @@ void ScoreSorter::readFile()
     }
 
     QString titile(file.readLine()); //读取整行，作为字符串返回
-    this->txttitle.stud = titile.split(" ", QString::SkipEmptyParts);   //按空格读取
+    this->txttitle.stud = titile.split(" ", QString::SkipEmptyParts);
 
     if((this->txttitle.stud).last() == "\n")
         this->txttitle.stud.removeLast();
-
 
     while(!file.atEnd())
     {
@@ -152,7 +152,7 @@ void ScoreSorter::readFile()
             getdata.stud.removeLast();
 
         if(getdata.stud.size()==0) continue;
-            this->infor.append(getdata);  //添加数据到infor
+            this->infor.append(getdata);
 
     }
 }
@@ -164,39 +164,34 @@ void ScoreSorter::doSort()
 {
     for(int i=1; i<this->txttitle.stud.size(); i++)
     {
-        myCmp mycmp(i-1);    //初始化排序规则对象
-        std::sort(this->infor.begin() , this->infor.end() , mycmp );  //排序
+        myCmp mycmp(i-1);
+        std::sort(this->infor.begin() , this->infor.end() , mycmp );
 
         qDebug()<<"排序后输出，当前排序第 "<< i+1 <<" 列：";
         qDebug()<< "   "<<(this->txttitle);    //输出表头
-
         for(int i=0;i<this->infor.size();i++)  qDebug() << this->infor.at(i);  //重载输出
-        qDebug()<<"-----------------------------------------------------------------------------------------\n";
+        qDebug()<<"--------------------------------------------------------------------\n";
 
-        this->printfile(i+1); //当前排序规则下的data 输出到文件
+        this->printfile(i+1); //调用函数数据写入
     }
 }
-
 
 
 void ScoreSorter::printfile(quint8 currentColumn)
 {
     QFile file("sorted_"+this->datafile);
-
     file.open(QIODevice::ReadWrite | QIODevice::Append);
-
     QTextStream stream(&file);
-    stream.setCodec("UTF-8");  //编码方式
-    stream<<QString("排序后输出，当前排序第 ")<<currentColumn <<QString(" 列：")<<"\r\n";
-
+    stream.setCodec("UTF-8");  //用UTF8编码输入
+    stream<<QString("排序后输出，当前排序第").toUtf8()<<line <<QString(" 列：").toUtf8()<<"\n";
     //输出表头
     for(int j=0;j<this->txttitle.stud.size();j++)
     {
         stream<<"   "<<this->txttitle.stud.at(j);
     }
         stream<<"\r\n";
-
-    for(int i=0;i<this->infor.size();i++)            //输出内容
+    //输出数据
+    for(int i=0;i<this->infor.size();i++)
     {
         for(int j=0;j<this->txttitle.stud.size();j++)
         stream<<this->infor.at(i).stud.at(j)<<"\t";
@@ -204,17 +199,18 @@ void ScoreSorter::printfile(quint8 currentColumn)
     }
 
 
-    stream<<"------------------------------------------------------------------"<<"\r\n\r\n";
+    stream<<"----------------------------------------------------------------"<<"\r\n\r\n";
     file.close();
 }
 
-int main(int argc, char *argv[])
+int main
 {
     //QCoreApplication a(argc, argv);
 
     QString datafile = "data.txt";// 如果排序后文件已存在，则删除之
     QFile f("sorted_"+datafile);
-    if (f.exists()){
+    if (f.exists())
+    {
         f.remove();
     }
 
